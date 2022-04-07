@@ -11,18 +11,22 @@ import {
 import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import Head from 'next/head';
+import { useState } from 'react';
 import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 import API, { urls } from '../../lib/API';
 
 export default () => {
+  const [keyColor, setKeyColor] = useState('grey');
+
   const form = useForm({
     initialValues: {
-      name: 'Max Mustermann',
-      email: 'max.mustermann@gmail.com',
-      password: 'mustermann123',
-      phone: '+4917631313131',
-      dateOfBirth: '01.04.1980',
-      gender: 'Male',
+      name: '',
+      email: '',
+      password: '',
+      passwordAgain: '',
+      phone: '',
+      dateOfBirth: '',
+      gender: '',
     },
   });
 
@@ -34,71 +38,82 @@ export default () => {
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form
           onSubmit={form.onSubmit((values) => {
-            API.post(urls.CREATE_NEW_PATIENT, values)
+            if (values.password !== values.passwordAgain) {
+              setKeyColor('red');
+              return alert('Password have to match!');
+            }
+
+            const { passwordAgain, ...reqBody } = values;
+            API.post(urls.CREATE_NEW_PATIENT, reqBody)
               .then((resp) => {
                 console.log(resp.ok);
+                window.location.href = '/';
               })
               .catch((error) => {
                 console.log(error);
               });
-            window.location.href = '/';
           })}
         >
           <Stack>
             <Title order={1}>REGISTER</Title>
             <TextInput
-              placeholder="Your name"
-              label="Full name"
-              radius="md"
+              placeholder='Your name'
+              label='Full name'
+              radius='md'
               required
+              autoComplete='off'
               icon={<Id />}
               style={{ width: '50vw' }}
               {...form.getInputProps('name')}
             />
             <TextInput
-              placeholder="Your email"
-              label="Email"
-              type="email"
-              radius="md"
+              placeholder='Your email'
+              label='Email'
+              type='email'
+              radius='md'
+              autoComplete='off'
               icon={<At />}
               required
               {...form.getInputProps('email')}
             />
             <PasswordInput
-              placeholder="Password"
-              label="Password"
-              radius="md"
+              placeholder='Password'
+              label='Password'
+              radius='md'
+              autoComplete='off'
               required
-              icon={<Key />}
+              icon={<Key color={keyColor} />}
               {...form.getInputProps('password')}
             />
             <PasswordInput
-              placeholder="Password Again"
-              label="Password Again"
-              radius="md"
+              placeholder='Password Again'
+              label='Password Again'
+              radius='md'
+              autoComplete='off'
               required
-              icon={<Key />}
+              icon={<Key color={keyColor} />}
+              {...form.getInputProps('passwordAgain')}
             />
             <TextInput
-              placeholder="Phone Number"
-              label="Phone Number"
-              type="tel"
-              radius="md"
+              placeholder='Phone Number'
+              label='Phone Number'
+              type='tel'
+              radius='md'
               required
               icon={<Phone />}
               {...form.getInputProps('phone')}
             />
             <DatePicker
-              placeholder="Date of Birth"
-              label="Date of Birth"
+              placeholder='Date of Birth'
+              label='Date of Birth'
               required
               icon={<Cake />}
               {...form.getInputProps('dateOfBirth')}
             />
             <Select
-              label="Gender"
-              placeholder="Gender"
-              dropdownPosition="top"
+              label='Gender'
+              placeholder='Gender'
+              dropdownPosition='top'
               icon={<Man />}
               required
               data={[
@@ -108,8 +123,8 @@ export default () => {
               ]}
               {...form.getInputProps('gender')}
             />
-            <Switch label="Agree to our policy" required color="grape" />
-            <Button type="submit" color="grape">
+            <Switch label='Agree to our policy' required color='grape' />
+            <Button type='submit' color='grape'>
               Submit
             </Button>
           </Stack>

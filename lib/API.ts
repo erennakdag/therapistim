@@ -3,9 +3,10 @@ import axios from 'axios';
 const API_URL = 'https://therapist-finding-app.herokuapp.com/';
 
 export const urls = {
-  TEST: 'test',
-  GET_ALL_PATIENTS: 'patients',
-  CREATE_NEW_PATIENT: 'patients/new',
+  TEST: 'test/',
+  GET_PATIENTS: 'patients/',
+  CREATE_NEW_PATIENT: 'patients/new/',
+  UPDATE_PATIENT: 'patients/update/',
 };
 
 export default {

@@ -1,0 +1,9 @@
+input,
+.mantine-PasswordInput-input {
+  transition: 250ms ease-in-out;
+}
+
+input:hover,
+.mantine-PasswordInput-input:hover {
+  border-color: yellow;
+}
