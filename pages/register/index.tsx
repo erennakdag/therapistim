@@ -43,6 +43,17 @@ export default () => {
               return alert('Password have to match!');
             }
 
+            if (
+              values.password.match(
+                /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\-__+.])+).{8,}$/gm,
+              ) === null
+            ) {
+              setKeyColor('red');
+              return alert(
+                'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
+              );
+            }
+
             const { passwordAgain, ...reqBody } = values;
             API.post(urls.CREATE_NEW_PATIENT, reqBody)
               .then((resp) => {
