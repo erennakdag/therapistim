@@ -11,8 +11,11 @@ import {
   Title,
   Checkbox,
 } from '@mantine/core';
+import { useState } from 'react';
 
 export default () => {
+  const [keyColor, setKeyColor] = useState('#adb6bd');
+  const [atColor, setAtColor] = useState('#adb6bd');
   const form = useForm({
     initialValues: {
       email: '',
@@ -29,7 +32,21 @@ export default () => {
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form
           onSubmit={form.onSubmit((values) => {
-            console.log(values);
+            API.post(urls.post.VALIDATE_PATIENT, values)
+              .then((res) => {
+                if (res === 401) {
+                  setKeyColor('red');
+                  return alert('Invalid password');
+                }
+                if (res === 404) {
+                  setAtColor('red');
+                  return alert('Account not found. Try to register.');
+                }
+                return (window.location.href = '/');
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })}
         >
           <Stack>
@@ -38,7 +55,7 @@ export default () => {
               name='email'
               label='Email'
               placeholder='Email'
-              icon={<At />}
+              icon={<At color={atColor} />}
               style={{ width: '30vw' }}
               required
               {...form.getInputProps('email')}
@@ -47,7 +64,7 @@ export default () => {
               name='password'
               label='Password'
               placeholder='Password'
-              icon={<Key />}
+              icon={<Key color={keyColor} />}
               required
               {...form.getInputProps('password')}
             />

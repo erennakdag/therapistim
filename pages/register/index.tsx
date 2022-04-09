@@ -55,7 +55,7 @@ export default () => {
             }
 
             const { passwordAgain, ...reqBody } = values;
-            API.post(urls.CREATE_NEW_PATIENT, reqBody)
+            API.post(urls.post.CREATE_NEW_PATIENT, reqBody)
               .then((resp) => {
                 console.log(resp.ok);
                 window.location.href = '/';
