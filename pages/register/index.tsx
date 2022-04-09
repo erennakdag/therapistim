@@ -16,7 +16,7 @@ import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 import API, { urls } from '../../lib/API';
 
 export default () => {
-  const [keyColor, setKeyColor] = useState('grey');
+  const [keyColor, setKeyColor] = useState('#adb6bd');
 
   const form = useForm({
     initialValues: {
@@ -74,7 +74,7 @@ export default () => {
               required
               autoComplete='off'
               icon={<Id />}
-              style={{ width: '50vw' }}
+              style={{ width: '30vw' }}
               {...form.getInputProps('name')}
             />
             <TextInput
