@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import API, { urls } from '../lib/API';
 
 const Home: NextPage = () => {
+  // tests and warms up the API
   const { data, error } = useSWR(urls.get.TEST, API.get);
 
   if (error) return <div>failed to load</div>;

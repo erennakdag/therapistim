@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// Should probs be a .env variable
 const API_URL = 'https://therapist-finding-app.herokuapp.com/';
 
+// maps the urls for the API
 export const urls = {
   get: {
     TEST: 'test/',
@@ -14,6 +16,7 @@ export const urls = {
   },
 };
 
+// util functions to make API calls
 export default {
   get: async (url: string) => {
     const response = await axios({

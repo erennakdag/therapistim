@@ -1,3 +1,8 @@
+// Next and React
+import Head from 'next/head';
+import { useState } from 'react';
+
+// UI
 import {
   Center,
   Title,
@@ -10,12 +15,13 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import Head from 'next/head';
-import { useState } from 'react';
 import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
+
+// API
 import API, { urls } from '../../lib/API';
 
 export default () => {
+  // Color of the key icon depending on if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
 
   const form = useForm({
@@ -43,6 +49,12 @@ export default () => {
               return alert('Password have to match!');
             }
 
+            /* Regex Checks for: 
+              1. lowercase and uppercase letters
+              2. digits
+              3. special characters
+              4. at least 8 characters long
+            */
             if (
               values.password.match(
                 /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\-__+.])+).{8,}$/gm,
@@ -54,10 +66,12 @@ export default () => {
               );
             }
 
+            // passwordAgain is not needed for the API call
             const { passwordAgain, ...reqBody } = values;
             API.post(urls.post.CREATE_NEW_PATIENT, reqBody)
               .then((resp) => {
                 console.log(resp.ok);
+                // succesful registration -> redirect to homepage
                 window.location.href = '/';
               })
               .catch((error) => {
