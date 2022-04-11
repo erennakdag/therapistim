@@ -52,6 +52,7 @@ export default () => {
                   return alert('Account not found. Try to register.');
                 }
                 // Found -> Login successful, redirect to homepage
+                sessionStorage.setItem('user', JSON.stringify(res.id));
                 return (window.location.href = '/');
               })
               .catch((err) => {

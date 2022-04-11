@@ -69,9 +69,10 @@ export default () => {
             // passwordAgain is not needed for the API call
             const { passwordAgain, ...reqBody } = values;
             API.post(urls.post.CREATE_NEW_PATIENT, reqBody)
-              .then((resp) => {
-                console.log(resp.ok);
+              .then((res) => {
+                console.log(res.ok);
                 // succesful registration -> redirect to homepage
+                sessionStorage.setItem('user', JSON.stringify(res.id));
                 window.location.href = '/';
               })
               .catch((error) => {

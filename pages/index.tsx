@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import useSWR from 'swr';
+import Link from 'next/link';
 
 import API, { urls } from '../lib/API';
 
@@ -21,6 +22,10 @@ const Home: NextPage = () => {
       </Head>
 
       <div>Hello, World!</div>
+
+      <Link href='/profile'>
+        <a>Profile</a>
+      </Link>
     </div>
   );
 };
