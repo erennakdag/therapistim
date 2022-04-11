@@ -1,9 +1,7 @@
 // Next and React
 import Head from 'next/head';
 import useSWR from 'swr';
-
-// Hooks
-import useSessionStorage from '../../hooks/useSessionStorage';
+import { getCookie, removeCookies } from 'cookies-next';
 
 // UI
 import { Button } from '@mantine/core';
@@ -12,16 +10,14 @@ import { Button } from '@mantine/core';
 import API, { urls } from '../../lib/API';
 
 export default () => {
-  const id = useSessionStorage();
+  const id = getCookie('user') as string;
 
-  if (id === null) {
+  // TODO: Find a better way to redirect
+  if (id === undefined) {
     window.location.href = '/login';
   }
 
-  const { data, error } = useSWR(
-    urls.get.GET_PATIENTS + id?.substring(1, id.length - 1),
-    API.get,
-  );
+  const { data, error } = useSWR(urls.get.GET_PATIENTS + id, API.get);
 
   if (error || data === null) {
     return <div style={{ color: 'red' }}>An error occured</div>;
@@ -36,7 +32,7 @@ export default () => {
         <title>Profile</title>
       </Head>
       <div>{JSON.stringify(data)}</div>
-      <Button onClick={() => sessionStorage.removeItem('user')}>Logout</Button>
+      <Button onClick={() => removeCookies('user')}>Logout</Button>
     </>
   );
 };

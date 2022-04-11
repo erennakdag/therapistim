@@ -1,6 +1,7 @@
 // Next and React
 import Head from 'next/head';
 import { useState } from 'react';
+import { setCookies } from 'cookies-next';
 
 // UI
 import {
@@ -27,6 +28,7 @@ export default () => {
     initialValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
   });
 
@@ -39,7 +41,9 @@ export default () => {
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form
           onSubmit={form.onSubmit((values) => {
-            API.post(urls.post.VALIDATE_PATIENT, values)
+            // We don't need rememberMe for the API call
+            const { rememberMe, ...reqBody } = values;
+            API.post(urls.post.VALIDATE_PATIENT, reqBody)
               .then((res) => {
                 // Unauthorised access -> Password incorrect
                 if (res === 401) {
@@ -51,8 +55,21 @@ export default () => {
                   setAtColor('red');
                   return alert('Account not found. Try to register.');
                 }
-                // Found -> Login successful, redirect to homepage
-                sessionStorage.setItem('user', JSON.stringify(res.id));
+                // Found -> Login successful
+                // setting the auth cookie
+                /*
+                  For the substring we take res.id.length + 1 (instead of - 1)
+                  because the string we are taking it from (JSON.stringify(...))
+                  has 2 additional chars (quotation marks at the end and beginning)
+                  Also the reason why we are taking the substring to begin with
+                */
+                setCookies(
+                  'user',
+                  JSON.stringify(res.id).substring(1, res.id.length + 1),
+                  // Setting the cookie to expire in 2030 if the user checked rememberMe
+                  rememberMe ? { expires: new Date('2030-01-01') } : {},
+                );
+                // redirect to homepage
                 return (window.location.href = '/');
               })
               .catch((err) => {
@@ -79,7 +96,11 @@ export default () => {
               required
               {...form.getInputProps('password')}
             />
-            <Checkbox label='Remember me?' color='grape' />
+            <Checkbox
+              label='Remember me?'
+              color='grape'
+              {...form.getInputProps('rememberMe')}
+            />
             <Button type='submit' color='grape'>
               Login
             </Button>

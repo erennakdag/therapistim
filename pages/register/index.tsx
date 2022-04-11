@@ -1,5 +1,6 @@
 // Next and React
 import Head from 'next/head';
+import { setCookies } from 'cookies-next';
 import { useState } from 'react';
 
 // UI
@@ -70,9 +71,18 @@ export default () => {
             const { passwordAgain, ...reqBody } = values;
             API.post(urls.post.CREATE_NEW_PATIENT, reqBody)
               .then((res) => {
-                console.log(res.ok);
+                // setting the auth cookie
+                /*
+                  For the substring we take res.id.length + 1 (instead of - 1)
+                  because the string we are taking it from (JSON.stringify(...))
+                  has 2 additional chars (quotation marks at the end and beginning)
+                  Also the reason why we are taking the substring to begin with
+                */
+                setCookies(
+                  'user',
+                  JSON.stringify(res.id).substring(1, res.id.length + 1),
+                );
                 // succesful registration -> redirect to homepage
-                sessionStorage.setItem('user', JSON.stringify(res.id));
                 window.location.href = '/';
               })
               .catch((error) => {
