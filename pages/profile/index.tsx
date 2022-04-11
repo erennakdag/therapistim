@@ -2,6 +2,9 @@
 import Head from 'next/head';
 import useSWR from 'swr';
 
+// Hooks
+import useSessionStorage from '../../hooks/useSessionStorage';
+
 // UI
 import { Button } from '@mantine/core';
 
@@ -9,7 +12,11 @@ import { Button } from '@mantine/core';
 import API, { urls } from '../../lib/API';
 
 export default () => {
-  const id = sessionStorage.getItem('user');
+  const id = useSessionStorage();
+
+  if (id === null) {
+    window.location.href = '/login';
+  }
 
   const { data, error } = useSWR(
     urls.get.GET_PATIENTS + id?.substring(1, id.length - 1),
