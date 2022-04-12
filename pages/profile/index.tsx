@@ -13,7 +13,6 @@ import API, { urls } from '../../lib/API';
 export default () => {
   const id = getCookie('user') as string;
 
-  // TODO: Find a better way to redirect
   if (id === undefined) {
     Router.push('/login');
     return;

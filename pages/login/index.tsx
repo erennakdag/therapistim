@@ -58,7 +58,6 @@ export default () => {
                   'user',
                   JSON.stringify(res.id).substring(1, res.id.length + 1),
                   // Setting the cookie to expire in 2030 if the user checked rememberMe
-                  // TODO: Dynamic expiration in one year
                   rememberMe
                     ? {
                         expires: new Date(
