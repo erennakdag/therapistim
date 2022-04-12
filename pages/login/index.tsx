@@ -1,5 +1,6 @@
 // Next and React
 import Head from 'next/head';
+import Router from 'next/router';
 import { useState } from 'react';
 import { setCookies } from 'cookies-next';
 
@@ -57,10 +58,17 @@ export default () => {
                   'user',
                   JSON.stringify(res.id).substring(1, res.id.length + 1),
                   // Setting the cookie to expire in 2030 if the user checked rememberMe
-                  rememberMe ? { expires: new Date('2030-01-01') } : {},
+                  // TODO: Dynamic expiration in one year
+                  rememberMe
+                    ? {
+                        expires: new Date(
+                          new Date().getTime() + 365 * 24 * 60 * 60 * 1000,
+                        ),
+                      }
+                    : {},
                 );
                 // redirect to homepage
-                return (window.location.href = '/');
+                return Router.push('/');
               })
               .catch((err) => {
                 const statusCode = err.response.status;

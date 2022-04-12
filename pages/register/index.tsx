@@ -1,5 +1,6 @@
 // Next and React
 import Head from 'next/head';
+import Router from 'next/router';
 import { setCookies } from 'cookies-next';
 import { useState } from 'react';
 
@@ -83,7 +84,7 @@ export default () => {
                   JSON.stringify(res.id).substring(1, res.id.length + 1),
                 );
                 // succesful registration -> redirect to homepage
-                window.location.href = '/';
+                Router.push('/');
               })
               .catch((error) => {
                 console.log(error);
