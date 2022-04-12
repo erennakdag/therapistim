@@ -87,6 +87,7 @@ export default () => {
               })
               .catch((error) => {
                 console.log(error);
+                alert('Oops! Something bad happened. Please try again later.');
               });
           })}
         >

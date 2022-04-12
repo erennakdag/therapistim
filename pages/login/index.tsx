@@ -45,16 +45,6 @@ export default () => {
             const { rememberMe, ...reqBody } = values;
             API.post(urls.post.VALIDATE_PATIENT, reqBody)
               .then((res) => {
-                // Unauthorised access -> Password incorrect
-                if (res === 401) {
-                  setKeyColor('red');
-                  return alert('Invalid password');
-                }
-                // Not found -> Email incorrect
-                if (res === 404) {
-                  setAtColor('red');
-                  return alert('Account not found. Try to register.');
-                }
                 // Found -> Login successful
                 // setting the auth cookie
                 /*
@@ -73,7 +63,15 @@ export default () => {
                 return (window.location.href = '/');
               })
               .catch((err) => {
-                console.log(err);
+                const statusCode = err.response.status;
+                // Unauthorised access -> Password incorrect
+                if (statusCode === 401) {
+                  alert('Invalid password');
+                }
+                // Not found -> Email incorrect
+                else if (statusCode === 404) {
+                  alert('Account not found. Try to register.');
+                }
               });
           })}
         >
