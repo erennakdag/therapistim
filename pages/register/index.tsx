@@ -1,6 +1,6 @@
 // Next and React
 import Head from 'next/head';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { setCookies } from 'cookies-next';
 import { useState } from 'react';
 
@@ -25,6 +25,7 @@ import API, { urls } from '../../lib/API';
 export default () => {
   // Color of the key icon depending on if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
+  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -84,7 +85,7 @@ export default () => {
                   JSON.stringify(res.id).substring(1, res.id.length + 1),
                 );
                 // succesful registration -> redirect to homepage
-                Router.push('/');
+                router.push('/');
               })
               .catch((error) => {
                 console.log(error);

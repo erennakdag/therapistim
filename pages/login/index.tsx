@@ -1,6 +1,6 @@
 // Next and React
 import Head from 'next/head';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { setCookies } from 'cookies-next';
 
@@ -24,6 +24,7 @@ export default () => {
   // Colors of the icons depending if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
   const [atColor, setAtColor] = useState('#adb6bd');
+  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -67,7 +68,7 @@ export default () => {
                     : {},
                 );
                 // redirect to homepage
-                return Router.push('/');
+                return router.push('/');
               })
               .catch((err) => {
                 const statusCode = err.response.status;
