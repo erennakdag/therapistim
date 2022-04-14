@@ -1,3 +1,4 @@
+import { executionAsyncResource } from 'async_hooks';
 import axios from 'axios';
 
 // Should probs be a .env variable
@@ -13,6 +14,9 @@ export const urls = {
     VALIDATE_PATIENT: 'patients/validate/',
     CREATE_NEW_PATIENT: 'patients/new/',
     UPDATE_PATIENT: 'patients/update/',
+  },
+  delete: {
+    DELETE_PATIENT: 'patients/delete/',
   },
 };
 
@@ -30,6 +34,13 @@ export default {
       method: 'POST',
       url: API_URL + url,
       data: body,
+    });
+    return response.data;
+  },
+  delete: async (url: string) => {
+    const response = await axios({
+      method: 'DELETE',
+      url: API_URL + url,
     });
     return response.data;
   },

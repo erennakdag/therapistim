@@ -19,6 +19,7 @@ import { At, Key } from 'tabler-icons-react';
 
 // API
 import API, { urls } from '../../lib/API';
+import Link from 'next/link';
 
 export default () => {
   // Colors of the icons depending if there is an error
@@ -107,6 +108,11 @@ export default () => {
               color='grape'
               {...form.getInputProps('rememberMe')}
             />
+            <Link href='/register'>
+              <a style={{ fontSize: 'small' }}>
+                Don't have an account yet? Register
+              </a>
+            </Link>
             <Button type='submit' color='grape'>
               Login
             </Button>

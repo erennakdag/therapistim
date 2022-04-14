@@ -25,6 +25,7 @@ import API, { urls } from '../../lib/API';
 export default () => {
   // Color of the key icon depending on if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
+  const [atColor, setAtColor] = useState('#adb6bd');
   const router = useRouter();
 
   const form = useForm({
@@ -88,8 +89,10 @@ export default () => {
                 router.push('/');
               })
               .catch((error) => {
-                console.log(error);
-                alert('Oops! Something bad happened. Please try again later.');
+                if (error.response.status === 409) {
+                  alert('This email already exists!');
+                  setAtColor('red');
+                }
               });
           })}
         >
@@ -111,7 +114,7 @@ export default () => {
               type='email'
               radius='md'
               autoComplete='off'
-              icon={<At />}
+              icon={<At color={atColor} />}
               required
               {...form.getInputProps('email')}
             />
