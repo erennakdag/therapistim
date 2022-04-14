@@ -76,10 +76,12 @@ export default () => {
                 // Unauthorised access -> Password incorrect
                 if (statusCode === 401) {
                   alert('Invalid password');
+                  setKeyColor('red');
                 }
                 // Not found -> Email incorrect
                 else if (statusCode === 404) {
                   alert('Account not found. Try to register.');
+                  setAtColor('red');
                 }
               });
           })}
