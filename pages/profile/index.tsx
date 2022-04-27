@@ -8,7 +8,7 @@ import usePatient from '../../hooks/usePatient';
 import { Button } from '@mantine/core';
 
 // API
-import API, { urls } from '../../lib/API';
+import { deletePatientById } from '../../lib/API';
 
 export default () => {
   const [data, isRedirect] = usePatient();
@@ -38,7 +38,7 @@ export default () => {
           removeCookies('user');
 
           // Deletes the user with the given ID
-          API.delete(urls.delete.DELETE_PATIENT + data.id)
+          deletePatientById(data.id)
             .then((_) => {
               router.push('/');
             })

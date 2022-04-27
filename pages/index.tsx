@@ -1,18 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import useSWR from 'swr';
 import Link from 'next/link';
 
-import API, { urls } from '../lib/API';
-
 const Home: NextPage = () => {
-  // tests and warms up the API
-  const { data, error } = useSWR(urls.get.TEST, API.get);
-
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-  if (data) console.log(data);
-
   return (
     <div>
       <Head>
