@@ -39,8 +39,8 @@ export default () => {
 
           // Deletes the user with the given ID
           API.delete(urls.delete.DELETE_PATIENT + data.id)
-            .then((res) => {
-              console.log(res);
+            .then((_) => {
+              router.push('/');
             })
             .catch((err) => {
               if (err.response.status === 404) {
@@ -50,8 +50,6 @@ export default () => {
                 console.log(err);
               }
             });
-
-          router.push('/');
         }}
       >
         Delete My Account

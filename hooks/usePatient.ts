@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
-import API, { urls } from '../lib/API';
+import { fetchPatientById } from '../lib/API';
 
 export default () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default () => {
       return;
     }
 
-    API.get(urls.get.GET_PATIENTS + id)
+    fetchPatientById(id as string)
       .then((response) => {
         setData(response);
       })
