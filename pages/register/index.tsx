@@ -20,7 +20,7 @@ import { useForm } from '@mantine/form';
 import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 
 // API
-import API, { urls } from '../../lib/API';
+import { createPatient } from '../../lib/API';
 
 export default () => {
   // Color of the key icon depending on if there is an error
@@ -72,7 +72,7 @@ export default () => {
 
             // passwordAgain is not needed for the API call
             const { passwordAgain, ...reqBody } = values;
-            API.post(urls.post.CREATE_NEW_PATIENT, reqBody)
+            createPatient(reqBody)
               .then((res) => {
                 // setting the auth cookie
                 /*
@@ -89,7 +89,7 @@ export default () => {
                 router.push('/');
               })
               .catch((error) => {
-                if (error.response.status === 409) {
+                if (error.statusCode === 409) {
                   alert('This email already exists!');
                   setAtColor('red');
                 }

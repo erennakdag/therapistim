@@ -9,14 +9,31 @@ const enum METHODS {
   DELETE = 'DELETE',
 }
 
+// Custom Error class to dispatch the status code to the components
+class HttpError extends Error {
+  statusCode: number;
+
+  constructor(statusCode: number) {
+    super();
+    this.statusCode = statusCode;
+  }
+}
+
 // util function, don't export
 async function _fetch(url: string, method: METHODS, body?: any) {
   const resp = await fetch(`${API_URL}${url}`, {
     method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(body),
   });
-  const data = await resp.json();
-  return data;
+  if (resp.ok) {
+    return await resp.json();
+  } else {
+    throw new HttpError(resp.status);
+  }
 }
 
 export async function fetchTest() {

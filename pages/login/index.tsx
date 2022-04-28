@@ -18,7 +18,7 @@ import { useForm } from '@mantine/form';
 import { At, Key } from 'tabler-icons-react';
 
 // API
-import API, { urls } from '../../lib/API';
+import { loginPatient } from '../../lib/API';
 import Link from 'next/link';
 
 export default () => {
@@ -46,7 +46,7 @@ export default () => {
           onSubmit={form.onSubmit((values) => {
             // We don't need rememberMe for the API call
             const { rememberMe, ...reqBody } = values;
-            API.post(urls.post.VALIDATE_PATIENT, reqBody)
+            loginPatient(reqBody)
               .then((res) => {
                 // Found -> Login successful
                 // setting the auth cookie
@@ -72,7 +72,7 @@ export default () => {
                 return router.push('/');
               })
               .catch((err) => {
-                const statusCode = err.response.status;
+                const statusCode = err.statusCode;
                 // Unauthorised access -> Password incorrect
                 if (statusCode === 401) {
                   alert('Invalid password');

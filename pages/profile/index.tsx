@@ -43,8 +43,7 @@ export default () => {
               router.push('/');
             })
             .catch((err) => {
-              if (err.response.status === 404) {
-                console.log(err);
+              if (err.statusCode === 404) {
                 throw new Error("This user doesn't exist anyway!");
               } else {
                 console.log(err);
