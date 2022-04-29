@@ -1,3 +1,5 @@
+import { IPatientCreate, IPatientData, IPatientLogin } from './types';
+
 // Should probs be a .env variable
 const API_URL = 'https://therapist-finding-app.herokuapp.com/api/';
 
@@ -40,26 +42,31 @@ export async function fetchTest() {
   return await _fetch('test/', METHODS.GET);
 }
 
-export async function fetchPatients() {
+export async function fetchPatients(): Promise<IPatientData[]> {
   return await _fetch('patients/', METHODS.GET);
 }
 
-export async function loginPatient(body: { email: string; password: string }) {
+export async function loginPatient(body: IPatientLogin): Promise<IPatientData> {
   return await _fetch('patients/validate', METHODS.PUT, body);
 }
 
-export async function createPatient(body: any) {
+export async function createPatient(
+  body: IPatientCreate,
+): Promise<IPatientData> {
   return await _fetch('patients/', METHODS.POST, body);
 }
 
-export async function fetchPatientById(id: string) {
+export async function fetchPatientById(id: string): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.GET);
 }
 
-export async function updatePatientById(id: string, body: any) {
+export async function updatePatientById(
+  id: string,
+  body: any,
+): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.PATCH, body);
 }
 
-export async function deletePatientById(id: string) {
+export async function deletePatientById(id: string): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.DELETE);
 }

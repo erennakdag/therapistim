@@ -43,7 +43,7 @@ export default () => {
   return (
     <>
       <Head>
-        <title>Register</title>
+        <title>Register | Therapistim</title>
       </Head>
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form

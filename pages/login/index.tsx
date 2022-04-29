@@ -87,7 +87,7 @@ export default () => {
           })}
         >
           <Stack>
-            <Title>Login</Title>
+            <Title>Login | Therapistim</Title>
             <TextInput
               name='email'
               label='Email'
