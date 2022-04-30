@@ -38,7 +38,7 @@ export default () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Login | Therapistim</title>
       </Head>
 
       <Center style={{ width: '100%', marginTop: '5vh' }}>
@@ -87,7 +87,7 @@ export default () => {
           })}
         >
           <Stack>
-            <Title>Login | Therapistim</Title>
+            <Title>Login</Title>
             <TextInput
               name='email'
               label='Email'
