@@ -5,7 +5,15 @@ import { removeCookies } from 'cookies-next';
 import usePatient from '../../hooks/usePatient';
 
 // UI
-import { Center, Stack, Avatar, Button, Loader, Text } from '@mantine/core';
+import {
+  Center,
+  Stack,
+  Avatar,
+  Button,
+  Loader,
+  Text,
+  Card,
+} from '@mantine/core';
 import DarkThemeToggler from '../../components/DarkThemeToggler';
 
 // API
@@ -40,53 +48,61 @@ export default () => {
       <Head>
         <title>Profile | {userData.name}</title>
       </Head>
+      <DarkThemeToggler />
       <Center style={{ marginTop: '50px' }}>
-        <Stack>
-          <DarkThemeToggler />
+        <Card
+          shadow='lg'
+          p='lg'
+          style={{ width: '50vw', borderRadius: '30px' }}
+        >
           <Center>
-            <Avatar radius='xl' size='xl' color={avatarColor}>
-              {userInitials.toUpperCase()}
-            </Avatar>
-          </Center>
-          {Object.entries(userData).map(([key, value], index) => {
-            key = key.replace(/([A-Z])/g, ' $1').toUpperCase();
-            return (
-              <div key={index}>
-                <Text weight={700}>{`${key}: `}</Text>
-                <Text>{value}</Text>
-              </div>
-            );
-          })}
-          <Button
-            onClick={() => {
-              removeCookies('user');
-              router.push('/login');
-            }}
-          >
-            Logout
-          </Button>
-          <Button
-            color='red'
-            onClick={() => {
-              removeCookies('user');
+            <Stack>
+              <Center>
+                <Avatar radius='xl' size='xl' color={avatarColor}>
+                  {userInitials.toUpperCase()}
+                </Avatar>
+              </Center>
+              {Object.entries(userData).map(([key, value], index) => {
+                key = key.replace(/([A-Z])/g, ' $1').toUpperCase();
+                return (
+                  <div key={index}>
+                    <Text weight={700}>{`${key}: `}</Text>
+                    <Text>{value}</Text>
+                  </div>
+                );
+              })}
+              <Button
+                onClick={() => {
+                  removeCookies('user');
+                  router.push('/login');
+                }}
+              >
+                Logout
+              </Button>
+              <Button
+                color='red'
+                onClick={() => {
+                  removeCookies('user');
 
-              // Deletes the user with the given ID
-              deletePatientById(data.id)
-                .then((_) => {
-                  router.push('/');
-                })
-                .catch((err) => {
-                  if (err.statusCode === 404) {
-                    throw new Error("This user doesn't exist anyway!");
-                  } else {
-                    console.log(err);
-                  }
-                });
-            }}
-          >
-            Delete My Account
-          </Button>
-        </Stack>
+                  // Deletes the user with the given ID
+                  deletePatientById(data.id)
+                    .then((_) => {
+                      router.push('/');
+                    })
+                    .catch((err) => {
+                      if (err.statusCode === 404) {
+                        throw new Error("This user doesn't exist anyway!");
+                      } else {
+                        console.log(err);
+                      }
+                    });
+                }}
+              >
+                Delete My Account
+              </Button>
+            </Stack>
+          </Center>
+        </Card>
       </Center>
     </>
   );
