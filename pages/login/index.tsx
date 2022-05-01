@@ -22,8 +22,6 @@ import { At, Key } from 'tabler-icons-react';
 import { loginPatient } from '../../lib/API';
 import Link from 'next/link';
 
-let count = 0;
-
 export default () => {
   // Colors of the icons depending if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
@@ -37,8 +35,6 @@ export default () => {
       rememberMe: false,
     },
   });
-
-  console.log('Rendered ' + count++);
 
   return (
     <>
