@@ -14,6 +14,7 @@ import {
   Switch,
   Stack,
   Button,
+  Card,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
@@ -96,80 +97,82 @@ export default () => {
               });
           })}
         >
-          <Stack>
-            <Title order={1}>REGISTER</Title>
-            <TextInput
-              placeholder='Your name'
-              label='Full name'
-              radius='md'
-              required
-              autoComplete='off'
-              icon={<Id />}
-              style={{ width: '30vw' }}
-              {...form.getInputProps('name')}
-            />
-            <TextInput
-              placeholder='Your email'
-              label='Email'
-              type='email'
-              radius='md'
-              autoComplete='off'
-              icon={<At color={atColor} />}
-              required
-              {...form.getInputProps('email')}
-            />
-            <PasswordInput
-              placeholder='Password'
-              label='Password'
-              radius='md'
-              autoComplete='off'
-              required
-              icon={<Key color={keyColor} />}
-              {...form.getInputProps('password')}
-            />
-            <PasswordInput
-              placeholder='Password Again'
-              label='Password Again'
-              radius='md'
-              autoComplete='off'
-              required
-              icon={<Key color={keyColor} />}
-              {...form.getInputProps('passwordAgain')}
-            />
-            <TextInput
-              placeholder='Phone Number'
-              label='Phone Number'
-              type='tel'
-              radius='md'
-              required
-              icon={<Phone />}
-              {...form.getInputProps('phone')}
-            />
-            <DatePicker
-              placeholder='Date of Birth'
-              label='Date of Birth'
-              required
-              icon={<Cake />}
-              {...form.getInputProps('dateOfBirth')}
-            />
-            <Select
-              label='Gender'
-              placeholder='Gender'
-              dropdownPosition='top'
-              icon={<Man />}
-              required
-              data={[
-                { value: 'Male', label: 'Male' },
-                { value: 'Female', label: 'Female' },
-                { value: 'Non-Binary', label: 'Non-Binary/Diverse' },
-              ]}
-              {...form.getInputProps('gender')}
-            />
-            <Switch label='Agree to our policy' required color='grape' />
-            <Button type='submit' color='grape'>
-              Submit
-            </Button>
-          </Stack>
+          <Card shadow='lg' p='lg'>
+            <Stack>
+              <Title order={1}>REGISTER</Title>
+              <TextInput
+                placeholder='Your name'
+                label='Full name'
+                radius='md'
+                required
+                autoComplete='off'
+                icon={<Id />}
+                style={{ width: '30vw' }}
+                {...form.getInputProps('name')}
+              />
+              <TextInput
+                placeholder='Your email'
+                label='Email'
+                type='email'
+                radius='md'
+                autoComplete='off'
+                icon={<At color={atColor} />}
+                required
+                {...form.getInputProps('email')}
+              />
+              <PasswordInput
+                placeholder='Password'
+                label='Password'
+                radius='md'
+                autoComplete='off'
+                required
+                icon={<Key color={keyColor} />}
+                {...form.getInputProps('password')}
+              />
+              <PasswordInput
+                placeholder='Password Again'
+                label='Password Again'
+                radius='md'
+                autoComplete='off'
+                required
+                icon={<Key color={keyColor} />}
+                {...form.getInputProps('passwordAgain')}
+              />
+              <TextInput
+                placeholder='Phone Number'
+                label='Phone Number'
+                type='tel'
+                radius='md'
+                required
+                icon={<Phone />}
+                {...form.getInputProps('phone')}
+              />
+              <DatePicker
+                placeholder='Date of Birth'
+                label='Date of Birth'
+                required
+                icon={<Cake />}
+                {...form.getInputProps('dateOfBirth')}
+              />
+              <Select
+                label='Gender'
+                placeholder='Gender'
+                dropdownPosition='top'
+                icon={<Man />}
+                required
+                data={[
+                  { value: 'Male', label: 'Male' },
+                  { value: 'Female', label: 'Female' },
+                  { value: 'Non-Binary', label: 'Non-Binary/Diverse' },
+                ]}
+                {...form.getInputProps('gender')}
+              />
+              <Switch label='Agree to our policy' required color='grape' />
+              <Button type='submit' color='grape'>
+                Submit
+              </Button>
+            </Stack>
+          </Card>
         </form>
       </Center>
     </>

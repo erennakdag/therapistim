@@ -13,6 +13,7 @@ import {
   PasswordInput,
   Title,
   Checkbox,
+  Card,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Key } from 'tabler-icons-react';
@@ -86,39 +87,41 @@ export default () => {
               });
           })}
         >
-          <Stack>
-            <Title>Login</Title>
-            <TextInput
-              name='email'
-              label='Email'
-              placeholder='Email'
-              icon={<At color={atColor} />}
-              style={{ width: '30vw' }}
-              required
-              {...form.getInputProps('email')}
-            />
-            <PasswordInput
-              name='password'
-              label='Password'
-              placeholder='Password'
-              icon={<Key color={keyColor} />}
-              required
-              {...form.getInputProps('password')}
-            />
-            <Checkbox
-              label='Remember me?'
-              color='grape'
-              {...form.getInputProps('rememberMe')}
-            />
-            <Link href='/register'>
-              <a style={{ fontSize: 'small' }}>
-                Don't have an account yet? Register
-              </a>
-            </Link>
-            <Button type='submit' color='grape'>
-              Login
-            </Button>
-          </Stack>
+          <Card shadow='lg' p='lg'>
+            <Stack>
+              <Title>Login</Title>
+              <TextInput
+                name='email'
+                label='Email'
+                placeholder='Email'
+                icon={<At color={atColor} />}
+                style={{ width: '30vw' }}
+                required
+                {...form.getInputProps('email')}
+              />
+              <PasswordInput
+                name='password'
+                label='Password'
+                placeholder='Password'
+                icon={<Key color={keyColor} />}
+                required
+                {...form.getInputProps('password')}
+              />
+              <Checkbox
+                label='Remember me?'
+                color='grape'
+                {...form.getInputProps('rememberMe')}
+              />
+              <Link href='/register'>
+                <a style={{ fontSize: 'small' }}>
+                  Don't have an account yet? Register
+                </a>
+              </Link>
+              <Button type='submit' color='grape'>
+                Login
+              </Button>
+            </Stack>
+          </Card>
         </form>
       </Center>
     </>

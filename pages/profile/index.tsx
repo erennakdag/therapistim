@@ -6,6 +6,7 @@ import usePatient from '../../hooks/usePatient';
 
 // UI
 import { Center, Stack, Avatar, Button, Loader, Text } from '@mantine/core';
+import DarkThemeToggler from '../../components/DarkThemeToggler';
 
 // API
 import { deletePatientById } from '../../lib/API';
@@ -41,6 +42,7 @@ export default () => {
       </Head>
       <Center style={{ marginTop: '50px' }}>
         <Stack>
+          <DarkThemeToggler />
           <Center>
             <Avatar radius='xl' size='xl' color={avatarColor}>
               {userInitials.toUpperCase()}
