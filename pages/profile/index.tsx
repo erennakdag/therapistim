@@ -59,7 +59,7 @@ export default () => {
         onClose={() => setOpened(false)}
         title='Change Your Password and Phone Number'
       >
-        <UpdatePatientInfo />
+        <UpdatePatientInfo id={id} />
       </Modal>
 
       <DarkThemeToggler />
@@ -107,7 +107,7 @@ export default () => {
                   removeCookies('user');
 
                   // Deletes the user with the given ID
-                  deletePatientById(data.id)
+                  deletePatientById(id)
                     .then((_) => {
                       router.push('/');
                     })

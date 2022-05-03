@@ -26,6 +26,7 @@ export interface IPatientLogin {
 }
 
 export interface IPatientUpdate {
+  passwordOld: string;
   password?: string;
   phone?: string;
 }

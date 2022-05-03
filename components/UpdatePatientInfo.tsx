@@ -1,30 +1,59 @@
 import { Button, Center, PasswordInput, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { Key, Phone } from 'tabler-icons-react';
+import { updatePatientById } from '../lib/API';
+import { IPatientUpdate } from '../lib/types';
 
-export default () => {
+export default ({ id }: { id: string }) => {
+  const form = useForm({
+    initialValues: {
+      passwordOld: '',
+      password: '',
+      passwordAgain: '',
+      phone: '',
+    },
+  });
+
   return (
-    <form>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        const { passwordOld, password, passwordAgain, phone } = values;
+        const reqBody: IPatientUpdate = { passwordOld };
+
+        // Check if new password checks out
+        if (password !== '' && password === passwordAgain) {
+          reqBody.password = password;
+        }
+
+        // check if user entered a new phone number
+        if (phone !== '') {
+          reqBody.phone = phone;
+        }
+
+        updatePatientById(id, reqBody).then(console.log).catch(console.log);
+      })}
+    >
       <PasswordInput
         label='Old Password'
         placeholder='Old Password'
         radius='md'
         icon={<Key />}
         required
-        // {...form.getInputProps('passwordOld')}
+        {...form.getInputProps('passwordOld')}
       />
       <PasswordInput
         label='New Password'
         placeholder='New Password'
         radius='md'
         icon={<Key />}
-        // {...form.getInputProps('password')}
+        {...form.getInputProps('password')}
       />
       <PasswordInput
         label='New Password Again'
         placeholder='New Password Again'
         radius='md'
         icon={<Key />}
-        // {...form.getInputProps('passwordAgain')}
+        {...form.getInputProps('passwordAgain')}
       />
       <TextInput
         placeholder='Phone Number'
@@ -32,10 +61,10 @@ export default () => {
         type='tel'
         radius='md'
         icon={<Phone />}
-        // {...form.getInputProps('phone')}
+        {...form.getInputProps('phone')}
       />
       <Center style={{ marginTop: '10px' }}>
-        <Button>Submit</Button>
+        <Button type='submit'>Submit</Button>
       </Center>
     </form>
   );

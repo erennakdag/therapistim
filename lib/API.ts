@@ -1,4 +1,9 @@
-import { IPatientCreate, IPatientData, IPatientLogin } from './types';
+import {
+  IPatientCreate,
+  IPatientData,
+  IPatientLogin,
+  IPatientUpdate,
+} from './types';
 
 // Should probs be a .env variable
 const API_URL = 'https://therapist-finding-app.herokuapp.com/api/';
@@ -62,7 +67,7 @@ export async function fetchPatientById(id: string): Promise<IPatientData> {
 
 export async function updatePatientById(
   id: string,
-  body: any,
+  body: IPatientUpdate,
 ): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.PATCH, body);
 }
