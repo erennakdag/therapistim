@@ -22,6 +22,7 @@ import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 
 // API
 import { createPatient } from '../../lib/API';
+import { isPasswordNotAcceptable } from '../../lib/utils';
 
 export default () => {
   // Color of the key icon depending on if there is an error
@@ -54,17 +55,7 @@ export default () => {
               return alert('Password have to match!');
             }
 
-            /* Regex Checks for: 
-              1. lowercase and uppercase letters
-              2. digits
-              3. special characters
-              4. at least 8 characters long
-            */
-            if (
-              values.password.match(
-                /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*()\-__+.])+).{8,}$/gm,
-              ) === null
-            ) {
+            if (isPasswordNotAcceptable(values.password)) {
               setKeyColor('red');
               return alert(
                 'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
