@@ -13,15 +13,21 @@ import {
   Loader,
   Text,
   Card,
+  Modal,
+  PasswordInput,
+  TextInput,
 } from '@mantine/core';
 import DarkThemeToggler from '../../components/DarkThemeToggler';
 
 // API
 import { deletePatientById } from '../../lib/API';
+import { useState } from 'react';
+import { Key, Phone } from 'tabler-icons-react';
 
 export default () => {
   const { data, isLoading, isRedirect } = usePatient();
   const router = useRouter();
+  const [opened, setOpened] = useState(false);
 
   if (isRedirect) {
     return <div>Redirecting...</div>;
@@ -34,7 +40,7 @@ export default () => {
   }
 
   // Get the unneccessary field out of the way
-  const { id, password, ...userData } = data;
+  const { id, password, hasPrivateInsurance, ...userData } = data;
 
   // User/Patient's initials
   const names = userData.name.split(' ');
@@ -48,6 +54,50 @@ export default () => {
       <Head>
         <title>Profile | {userData.name}</title>
       </Head>
+
+      <Modal
+        centered
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title='Change Your Password and Phone Number'
+      >
+        <form>
+          <PasswordInput
+            label='Old Password'
+            placeholder='Old Password'
+            radius='md'
+            icon={<Key />}
+            required
+            // {...form.getInputProps('passwordOld')}
+          />
+          <PasswordInput
+            label='New Password'
+            placeholder='New Password'
+            radius='md'
+            icon={<Key />}
+            // {...form.getInputProps('password')}
+          />
+          <PasswordInput
+            label='New Password Again'
+            placeholder='New Password Again'
+            radius='md'
+            icon={<Key />}
+            // {...form.getInputProps('passwordAgain')}
+          />
+          <TextInput
+            placeholder='Phone Number'
+            label='Phone Number'
+            type='tel'
+            radius='md'
+            icon={<Phone />}
+            // {...form.getInputProps('phone')}
+          />
+          <Center style={{ marginTop: '10px' }}>
+            <Button>Submit</Button>
+          </Center>
+        </form>
+      </Modal>
+
       <DarkThemeToggler />
       <Center style={{ marginTop: '50px' }}>
         <Card
@@ -63,14 +113,22 @@ export default () => {
                 </Avatar>
               </Center>
               {Object.entries(userData).map(([key, value], index) => {
-                key = key.replace(/([A-Z])/g, ' $1').toUpperCase();
+                key =
+                  key[0].toUpperCase() +
+                  key
+                    .substring(1)
+                    .replace(/([A-Z])/g, ' $1')
+                    .toLowerCase();
                 return (
-                  <div key={index}>
-                    <Text weight={700}>{`${key}: `}</Text>
-                    <Text>{value}</Text>
-                  </div>
+                  <Text key={index}>
+                    <b>{`${key}: `}</b> {value || 'Not given'}
+                  </Text>
                 );
               })}
+              {/* TODO: Open modal to change password */}
+              <Button onClick={() => setOpened(true)}>
+                Change Password/Number
+              </Button>
               <Button
                 onClick={() => {
                   removeCookies('user');
