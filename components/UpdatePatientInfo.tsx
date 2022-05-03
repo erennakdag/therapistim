@@ -3,6 +3,7 @@ import { useForm } from '@mantine/form';
 import { Key, Phone } from 'tabler-icons-react';
 import { updatePatientById } from '../lib/API';
 import { IPatientUpdate } from '../lib/types';
+import { isPasswordNotAcceptable } from '../lib/utils';
 
 export default ({ id }: { id: string }) => {
   const form = useForm({
@@ -21,7 +22,11 @@ export default ({ id }: { id: string }) => {
         const reqBody: IPatientUpdate = { passwordOld };
 
         // Check if new password checks out
-        if (password !== '' && password === passwordAgain) {
+        if (
+          password !== '' &&
+          !isPasswordNotAcceptable(password) &&
+          password === passwordAgain
+        ) {
           reqBody.password = password;
         }
 
