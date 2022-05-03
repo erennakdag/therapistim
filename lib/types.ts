@@ -24,3 +24,8 @@ export interface IPatientLogin {
   email: string;
   password: string;
 }
+
+export interface IPatientUpdate {
+  password?: string;
+  phone?: string;
+}

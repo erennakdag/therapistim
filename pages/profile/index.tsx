@@ -14,15 +14,13 @@ import {
   Text,
   Card,
   Modal,
-  PasswordInput,
-  TextInput,
 } from '@mantine/core';
 import DarkThemeToggler from '../../components/DarkThemeToggler';
+import UpdatePatientInfo from '../../components/UpdatePatientInfo';
 
 // API
 import { deletePatientById } from '../../lib/API';
 import { useState } from 'react';
-import { Key, Phone } from 'tabler-icons-react';
 
 export default () => {
   const { data, isLoading, isRedirect } = usePatient();
@@ -61,41 +59,7 @@ export default () => {
         onClose={() => setOpened(false)}
         title='Change Your Password and Phone Number'
       >
-        <form>
-          <PasswordInput
-            label='Old Password'
-            placeholder='Old Password'
-            radius='md'
-            icon={<Key />}
-            required
-            // {...form.getInputProps('passwordOld')}
-          />
-          <PasswordInput
-            label='New Password'
-            placeholder='New Password'
-            radius='md'
-            icon={<Key />}
-            // {...form.getInputProps('password')}
-          />
-          <PasswordInput
-            label='New Password Again'
-            placeholder='New Password Again'
-            radius='md'
-            icon={<Key />}
-            // {...form.getInputProps('passwordAgain')}
-          />
-          <TextInput
-            placeholder='Phone Number'
-            label='Phone Number'
-            type='tel'
-            radius='md'
-            icon={<Phone />}
-            // {...form.getInputProps('phone')}
-          />
-          <Center style={{ marginTop: '10px' }}>
-            <Button>Submit</Button>
-          </Center>
-        </form>
+        <UpdatePatientInfo />
       </Modal>
 
       <DarkThemeToggler />
