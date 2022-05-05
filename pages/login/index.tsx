@@ -14,6 +14,7 @@ import {
   Title,
   Checkbox,
   Card,
+  Modal,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Key } from 'tabler-icons-react';
@@ -21,12 +22,15 @@ import { At, Key } from 'tabler-icons-react';
 // API
 import { loginPatient } from '../../lib/API';
 import Link from 'next/link';
+import ForgotMyPassword from '../../components/ForgotMyPassword';
 
 export default () => {
   // Colors of the icons depending if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
   const [atColor, setAtColor] = useState('#adb6bd');
   const router = useRouter();
+
+  const [opened, setOpened] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -41,6 +45,15 @@ export default () => {
       <Head>
         <title>Login | Therapistim</title>
       </Head>
+
+      <Modal
+        centered
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title='Forgot My Password'
+      >
+        <ForgotMyPassword />
+      </Modal>
 
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form
@@ -117,6 +130,9 @@ export default () => {
                   Don't have an account yet? Register
                 </a>
               </Link>
+              <a href='#' onClick={() => setOpened(true)}>
+                Forgot My Password
+              </a>
               <Button type='submit' color='grape'>
                 Login
               </Button>

@@ -72,6 +72,12 @@ export async function updatePatientById(
   return await _fetch('patients/' + id, METHODS.PATCH, body);
 }
 
+export async function updateForgottenPassword(
+  body: IPatientLogin,
+): Promise<IPatientData> {
+  return await _fetch('patients/', METHODS.PATCH, body);
+}
+
 export async function deletePatientById(id: string): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.DELETE);
 }
