@@ -38,7 +38,7 @@ export default () => {
   }
 
   // Get the unneccessary field out of the way
-  const { id, password, hasPrivateInsurance, ...userData } = data;
+  const { id, password, ...userData } = data;
 
   // User/Patient's initials
   const names = userData.name.split(' ');
