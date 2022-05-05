@@ -35,7 +35,18 @@ export default ({ id }: { id: string }) => {
           reqBody.phone = phone;
         }
 
-        updatePatientById(id, reqBody).then(console.log).catch(console.log);
+        updatePatientById(id, reqBody)
+          .then(() => alert('Succesfully updated your personal info!'))
+          .catch((err) => {
+            const status = err.statusCode;
+            if (status === 401) {
+              alert('Your old password is wrong, please try again!');
+            } else if (status === 404) {
+              alert(
+                'Something went wrong! We cannot find your records. Sorry :(',
+              );
+            }
+          });
       })}
     >
       <PasswordInput
