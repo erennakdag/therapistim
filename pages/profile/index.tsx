@@ -26,6 +26,7 @@ export default () => {
   const { data, isLoading, isRedirect } = usePatient();
   const router = useRouter();
   const [opened, setOpened] = useState(false);
+  const [deletePrompt, setDeletePrompt] = useState(false);
 
   if (isRedirect) {
     return <div>Redirecting...</div>;
@@ -101,27 +102,45 @@ export default () => {
               >
                 Logout
               </Button>
-              <Button
-                color='red'
-                onClick={() => {
-                  removeCookies('user');
-
-                  // Deletes the user with the given ID
-                  deletePatientById(id)
-                    .then((_) => {
-                      router.push('/');
-                    })
-                    .catch((err) => {
-                      if (err.statusCode === 404) {
-                        throw new Error("This user doesn't exist anyway!");
-                      } else {
-                        console.log(err);
-                      }
-                    });
-                }}
-              >
+              <Button color='red' onClick={() => setDeletePrompt(true)}>
                 Delete My Account
               </Button>
+              <Modal
+                centered
+                opened={deletePrompt}
+                onClose={() => setDeletePrompt(false)}
+                title='Are you sure you want to delete your account permanently?'
+              >
+                <p>
+                  <b>
+                    By clicking the following button you delete your account
+                    PERMANENTLY!
+                  </b>
+                </p>
+                <p>This action cannot be undone!</p>
+                <Button
+                  style={{ marginTop: '10px' }}
+                  color='red'
+                  onClick={() => {
+                    removeCookies('user');
+
+                    // Deletes the user with the given ID
+                    deletePatientById(id)
+                      .then((_) => {
+                        router.push('/');
+                      })
+                      .catch((err) => {
+                        if (err.statusCode === 404) {
+                          throw new Error("This user doesn't exist anyway!");
+                        } else {
+                          console.log(err);
+                        }
+                      });
+                  }}
+                >
+                  I am sure
+                </Button>
+              </Modal>
             </Stack>
           </Center>
         </Card>
