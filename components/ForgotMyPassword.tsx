@@ -60,7 +60,9 @@ export default () => {
         {...form.getInputProps('passwordAgain')}
       />
       <Center>
-        <Button style={{ marginTop: '10px' }}>Submit</Button>
+        <Button type='submit' style={{ marginTop: '10px' }}>
+          Submit
+        </Button>
       </Center>
     </form>
   );
