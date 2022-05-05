@@ -23,6 +23,7 @@ import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 // API
 import { createPatient } from '../../lib/API';
 import { isPasswordNotAcceptable } from '../../lib/utils';
+import dayjs from 'dayjs';
 
 export default () => {
   // Color of the key icon depending on if there is an error
@@ -50,7 +51,10 @@ export default () => {
       <Center style={{ width: '100%', marginTop: '5vh' }}>
         <form
           onSubmit={form.onSubmit((values) => {
-            if (values.password !== values.passwordAgain) {
+            // passwordAgain is not needed for the API call
+            const { passwordAgain, ...reqBody } = values;
+
+            if (values.password !== passwordAgain) {
               setKeyColor('red');
               return alert('Password have to match!');
             }
@@ -62,8 +66,13 @@ export default () => {
               );
             }
 
-            // passwordAgain is not needed for the API call
-            const { passwordAgain, ...reqBody } = values;
+            console.log(typeof reqBody.dateOfBirth);
+
+            // Timezone and the time are not needed
+            reqBody.dateOfBirth = dayjs(reqBody.dateOfBirth).format(
+              'DD.MM.YYYY',
+            );
+
             createPatient(reqBody)
               .then((res) => {
                 // setting the auth cookie
@@ -142,6 +151,7 @@ export default () => {
                 placeholder='Date of Birth'
                 label='Date of Birth'
                 required
+                allowFreeInput
                 icon={<Cake />}
                 {...form.getInputProps('dateOfBirth')}
               />
