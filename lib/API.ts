@@ -47,6 +47,8 @@ export async function fetchTest() {
   return await _fetch('test/', METHODS.GET);
 }
 
+// PATIENT ENDPOINTS
+
 export async function fetchPatients(): Promise<IPatientData[]> {
   return await _fetch('patients/', METHODS.GET);
 }
@@ -80,4 +82,10 @@ export async function updateForgottenPassword(
 
 export async function deletePatientById(id: string): Promise<IPatientData> {
   return await _fetch('patients/' + id, METHODS.DELETE);
+}
+
+// THERAPIST ENDPOINTS
+
+export async function loginTherapist(body: any): Promise<{ id: string }> {
+  return { id: 'default' };
 }
