@@ -1,8 +1,10 @@
 import {
   IPatientCreate,
   IPatientData,
-  IPatientLogin,
+  ILogin,
   IPatientUpdate,
+  ITherapistCreate,
+  ITherapistData,
 } from './types';
 
 // Should probs be a .env variable
@@ -53,7 +55,7 @@ export async function fetchPatients(): Promise<IPatientData[]> {
   return await _fetch('patients/', METHODS.GET);
 }
 
-export async function loginPatient(body: IPatientLogin): Promise<IPatientData> {
+export async function loginPatient(body: ILogin): Promise<IPatientData> {
   return await _fetch('patients/validate', METHODS.PUT, body);
 }
 
@@ -75,7 +77,7 @@ export async function updatePatientById(
 }
 
 export async function updateForgottenPassword(
-  body: IPatientLogin,
+  body: ILogin,
 ): Promise<IPatientData> {
   return await _fetch('patients/', METHODS.PATCH, body);
 }
@@ -86,6 +88,12 @@ export async function deletePatientById(id: string): Promise<IPatientData> {
 
 // THERAPIST ENDPOINTS
 
-export async function loginTherapist(body: any): Promise<{ id: string }> {
-  return { id: 'default' };
+export async function createTherapist(
+  body: ITherapistCreate,
+): Promise<ITherapistData> {
+  return await _fetch('therapist/', METHODS.POST, body);
+}
+
+export async function loginTherapist(body: ILogin): Promise<ITherapistData> {
+  return await _fetch('therapist/validate', METHODS.PUT, body);
 }

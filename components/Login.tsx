@@ -66,7 +66,7 @@ export default ({ adminLogin }: { adminLogin?: boolean }) => {
                   Also the reason why we are taking the substring to begin with
                 */
                 setCookies(
-                  'user',
+                  adminLogin ? 'therapist' : 'user',
                   JSON.stringify(res.id).substring(1, res.id.length + 1),
                   // Setting the cookie to expire in 2030 if the user checked rememberMe
                   rememberMe
