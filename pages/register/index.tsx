@@ -54,19 +54,17 @@ export default () => {
             // passwordAgain is not needed for the API call
             const { passwordAgain, ...reqBody } = values;
 
-            if (values.password !== passwordAgain) {
+            if (reqBody.password !== passwordAgain) {
               setKeyColor('red');
               return alert('Password have to match!');
             }
 
-            if (isPasswordNotAcceptable(values.password)) {
+            if (isPasswordNotAcceptable(reqBody.password)) {
               setKeyColor('red');
               return alert(
                 'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
               );
             }
-
-            console.log(typeof reqBody.dateOfBirth);
 
             // Timezone and the time are not needed
             reqBody.dateOfBirth = dayjs(reqBody.dateOfBirth).format(
