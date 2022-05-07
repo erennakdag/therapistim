@@ -43,7 +43,7 @@ export interface ITherapistData {
   website?: string;
   latitude: number;
   longitude: number;
-  acceptsPrivateInsurance?: boolean;
+  acceptsPrivateInsurance: boolean;
 }
 
 export interface ITherapistCreate {
@@ -58,5 +58,7 @@ export interface ITherapistCreate {
   specialties: string[];
   canWriteMedication: boolean;
   website?: string;
+  latitude: number;
+  longitude: number;
   acceptsPrivateInsurance?: boolean;
 }
