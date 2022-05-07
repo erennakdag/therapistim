@@ -41,12 +41,12 @@ export interface ITherapistData {
   specialties: string[];
   canWriteMedication: boolean;
   website?: string;
-  location?: string;
+  latitude: number;
+  longitude: number;
   acceptsPrivateInsurance?: boolean;
 }
 
 export interface ITherapistCreate {
-  id?: string;
   name: string;
   email: string;
   password: string;
@@ -58,6 +58,5 @@ export interface ITherapistCreate {
   specialties: string[];
   canWriteMedication: boolean;
   website?: string;
-  location?: string;
   acceptsPrivateInsurance?: boolean;
 }
