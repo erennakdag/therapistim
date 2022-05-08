@@ -37,7 +37,7 @@ export default ({ adminLogin }: { adminLogin?: boolean }) => {
   return (
     <>
       <Head>
-        <title>Login | Therapistim</title>
+        <title>Therapistim | Login{adminLogin && ' as a Therapist'}</title>
       </Head>
 
       <Modal
@@ -97,7 +97,7 @@ export default ({ adminLogin }: { adminLogin?: boolean }) => {
         >
           <Card shadow='lg' p='lg'>
             <Stack>
-              <Title>Login</Title>
+              <Title>Login {adminLogin && ' as a Therapist'}</Title>
               <TextInput
                 name='email'
                 label='Email'

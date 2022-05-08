@@ -54,11 +54,9 @@ export interface ITherapistCreate {
   bio: string;
   adress: string;
   institutionName?: string;
-  languages: string[];
-  specialties: string[];
+  languages: string;
+  specialties: string;
   canWriteMedication: boolean;
   website?: string;
-  latitude: number;
-  longitude: number;
   acceptsPrivateInsurance?: boolean;
 }

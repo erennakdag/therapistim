@@ -1,19 +1,25 @@
+// Next and React
+import Head from 'next/head';
+import Link from 'next/link';
+import { useState } from 'react';
+
+// UI
 import {
+  Button,
   Card,
   Center,
   Checkbox,
   PasswordInput,
   Stack,
+  Switch,
   Textarea,
   TextInput,
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
-
-import Head from 'next/head';
-import { useState } from 'react';
 import { At, Id, Key, Phone } from 'tabler-icons-react';
 
+// API and utils
 import { checkPasswordValidity, makeRegisterCall } from '../../../lib/utils';
 
 export default () => {
@@ -32,10 +38,8 @@ export default () => {
       institutionName: undefined,
       adress: '',
       website: undefined,
-      languages: [''],
-      specialties: [''],
-      latitude: 0,
-      longitude: 0,
+      languages: '',
+      specialties: '',
       canWriteMedication: false,
       acceptsPrivateInsurance: false,
     },
@@ -148,6 +152,25 @@ export default () => {
                 // icon={<Phone />}
                 {...form.getInputProps('website')}
               />
+
+              <TextInput
+                placeholder='e.g. English, German, French'
+                label='Languages you can speak with a patient:'
+                description='Please enter each value separated by a comma.'
+                radius='md'
+                // icon={<Phone />}
+                {...form.getInputProps('languages')}
+              />
+
+              <TextInput
+                placeholder='e.g. Depression, Anxiety, PTSD'
+                label='Specialties:'
+                description='Please enter each value separated by a comma.'
+                radius='md'
+                // icon={<Phone />}
+                {...form.getInputProps('specialties')}
+              />
+
               <Checkbox
                 label='Are you allowed to write medication? (e.g. antidepressants, benzodiazepine...)'
                 {...form.getInputProps('canWriteMedication')}
@@ -156,6 +179,13 @@ export default () => {
                 label='Do you accept patients with private insurance or no insurance (if they pay themselves)?'
                 {...form.getInputProps('acceptsPrivateInsurance')}
               />
+              <Switch label='Agree to our policy' required color='grape' />
+              <Link href='/admin/login'>
+                <a>Do you already have an account?</a>
+              </Link>
+              <Button type='submit' color='grape'>
+                Submit
+              </Button>
             </Stack>
           </Card>
         </form>
@@ -163,21 +193,3 @@ export default () => {
     </>
   );
 };
-
-/* MODEL FOR THE THERAPIST TABLE
-model Therapist {
-  id
-  DONE: name
-  DONE: email
-  DONE: password 
-  DONE: phone
-  DONE: bio
-  DONE: address
-  DONE: institutionName
-TODO: languages
-TODO: specialties  
-  DONE: canWriteMedication
-  DONE: website
-  DONE: acceptsPrivateInsurance
-}
-*/

@@ -1,5 +1,6 @@
 // Next and React
 import Head from 'next/head';
+import Link from 'next/link';
 import { useState } from 'react';
 
 // UI
@@ -139,6 +140,9 @@ export default () => {
                 {...form.getInputProps('gender')}
               />
               <Switch label='Agree to our policy' required color='grape' />
+              <Link href='/login'>
+                <a>Do you already have an account?</a>
+              </Link>
               <Button type='submit' color='grape'>
                 Submit
               </Button>

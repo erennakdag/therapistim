@@ -74,5 +74,8 @@ export function makeRegisterCall(
         alert('This email already exists!');
         setAtColor('red');
       }
+      if (status === 500) {
+        alert('Something went wrong with the server! Sorry about that :(');
+      }
     });
 }
