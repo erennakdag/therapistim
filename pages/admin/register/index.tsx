@@ -9,19 +9,17 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
-import { setCookies } from 'cookies-next';
+
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { At, Id, Key, Phone } from 'tabler-icons-react';
-import { createTherapist } from '../../../lib/API';
-import { isPasswordNotAcceptable } from '../../../lib/utils';
+
+import { checkPasswordValidity, makeRegisterCall } from '../../../lib/utils';
 
 export default () => {
   // Color of the key icon depending on if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
   const [atColor, setAtColor] = useState('#adb6bd');
-  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -53,42 +51,15 @@ export default () => {
         <form
           onSubmit={form.onSubmit((values) => {
             const { passwordAgain, ...reqBody } = values;
-            // check if the passwords match
-            if (reqBody.password !== passwordAgain) {
-              setKeyColor('red');
-              return alert('Passwords do not match! Try again.');
-            }
-
-            if (isPasswordNotAcceptable(reqBody.password)) {
-              setKeyColor('red');
-              return alert(
-                'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
-              );
-            }
-
-            createTherapist(reqBody)
-              .then((res) => {
-                // setting the auth cookie
-                /*
-                  For the substring we take res.id.length + 1 (instead of - 1)
-                  because the string we are taking it from (JSON.stringify(...))
-                  has 2 additional chars (quotation marks at the end and beginning)
-                  Also the reason why we are taking the substring to begin with
-                */
-                setCookies(
-                  'therapist',
-                  JSON.stringify(res.id).substring(1, res.id.length + 1),
-                );
-                // succesful registration -> redirect to homepage
-                router.push('/');
-              })
-              .catch((err) => {
-                const status = err.statusCode;
-                if (status === 409) {
-                  alert('This email already exists!');
-                  setAtColor('red');
-                }
-              });
+            if (
+              checkPasswordValidity(
+                values.password,
+                passwordAgain,
+                setKeyColor,
+              ) === 'ERROR'
+            )
+              return;
+            makeRegisterCall('therapist', reqBody, setAtColor);
           })}
         >
           <Card

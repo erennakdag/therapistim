@@ -1,7 +1,5 @@
 // Next and React
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { setCookies } from 'cookies-next';
 import { useState } from 'react';
 
 // UI
@@ -21,15 +19,13 @@ import { useForm } from '@mantine/form';
 import { Id, At, Key, Phone, Cake, Man } from 'tabler-icons-react';
 
 // API
-import { createPatient } from '../../lib/API';
-import { isPasswordNotAcceptable } from '../../lib/utils';
+import { checkPasswordValidity, makeRegisterCall } from '../../lib/utils';
 import dayjs from 'dayjs';
 
 export default () => {
   // Color of the key icon depending on if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
   const [atColor, setAtColor] = useState('#adb6bd');
-  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -54,45 +50,21 @@ export default () => {
             // passwordAgain is not needed for the API call
             const { passwordAgain, ...reqBody } = values;
 
-            if (reqBody.password !== passwordAgain) {
-              setKeyColor('red');
-              return alert('Password have to match!');
-            }
-
-            if (isPasswordNotAcceptable(reqBody.password)) {
-              setKeyColor('red');
-              return alert(
-                'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
-              );
-            }
+            if (
+              checkPasswordValidity(
+                values.password,
+                passwordAgain,
+                setKeyColor,
+              ) === 'ERROR'
+            )
+              return;
 
             // Timezone and the time are not needed
             reqBody.dateOfBirth = dayjs(reqBody.dateOfBirth).format(
               'DD.MM.YYYY',
             );
 
-            createPatient(reqBody)
-              .then((res) => {
-                // setting the auth cookie
-                /*
-                  For the substring we take res.id.length + 1 (instead of - 1)
-                  because the string we are taking it from (JSON.stringify(...))
-                  has 2 additional chars (quotation marks at the end and beginning)
-                  Also the reason why we are taking the substring to begin with
-                */
-                setCookies(
-                  'user',
-                  JSON.stringify(res.id).substring(1, res.id.length + 1),
-                );
-                // succesful registration -> redirect to homepage
-                router.push('/');
-              })
-              .catch((error) => {
-                if (error.statusCode === 409) {
-                  alert('This email already exists!');
-                  setAtColor('red');
-                }
-              });
+            makeRegisterCall('user', reqBody, setAtColor);
           })}
         >
           <Card shadow='lg' p='lg'>
