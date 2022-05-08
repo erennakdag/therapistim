@@ -1,10 +1,13 @@
 import { Button, Center, PasswordInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
+import { useState } from 'react';
 import { At, Key } from 'tabler-icons-react';
 import { updateForgottenPassword } from '../lib/API';
-import { isPasswordNotAcceptable } from '../lib/utils';
+import { checkPasswordValidity } from '../lib/utils';
 
 export default () => {
+  const [keyColor, setKeyColor] = useState('#adb6bd');
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -20,15 +23,13 @@ export default () => {
 
         const { passwordAgain, ...data } = values;
 
-        if (data.password !== passwordAgain) {
-          return alert('Passwords do not match!');
-        }
-        if (isPasswordNotAcceptable(data.password)) {
-          return alert(
-            'Password have to be at least 8 characters long and contain at least one number, \
-              one uppercase letter, one lowercase letter, and one special character.',
-          );
-        }
+        if (
+          checkPasswordValidity(data.password, passwordAgain, setKeyColor) ===
+          'ERROR'
+        )
+          return;
+
+        // TODO: Change API call for therapist
         updateForgottenPassword(data)
           .then(() => alert('Successfully updated your password!'))
           .catch(console.log);
@@ -47,7 +48,7 @@ export default () => {
         label='New Password'
         placeholder='New Password'
         radius='md'
-        icon={<Key />}
+        icon={<Key color={keyColor} />}
         required
         {...form.getInputProps('password')}
       />
