@@ -120,7 +120,7 @@ export default ({ adminLogin }: { adminLogin?: boolean }) => {
                 color='grape'
                 {...form.getInputProps('rememberMe')}
               />
-              <Link href='/register'>
+              <Link href={adminLogin ? '/admin/register' : '/register'}>
                 <a style={{ fontSize: 'small' }}>
                   Don't have an account yet? Register
                 </a>
