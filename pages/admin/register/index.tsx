@@ -8,11 +8,41 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { useForm } from '@mantine/hooks';
+import { setCookies } from 'cookies-next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { At, Id, Key, Phone } from 'tabler-icons-react';
+import { createTherapist } from '../../../lib/API';
+import { isPasswordNotAcceptable } from '../../../lib/utils';
 
 export default () => {
-  // TODO: useForm and make API call
+  // Color of the key icon depending on if there is an error
+  const [keyColor, setKeyColor] = useState('#adb6bd');
+  const [atColor, setAtColor] = useState('#adb6bd');
+  const router = useRouter();
+
+  const form = useForm({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      passwordAgain: '',
+      phone: '',
+      bio: '',
+      institutionName: undefined,
+      adress: '',
+      website: undefined,
+      languages: [''],
+      specialties: [''],
+      latitude: 0,
+      longitude: 0,
+      canWriteMedication: false,
+      acceptsPrivateInsurance: false,
+    },
+  });
+
   return (
     <>
       <Head>
@@ -20,7 +50,47 @@ export default () => {
       </Head>
 
       <Center>
-        <form>
+        <form
+          onSubmit={form.onSubmit((values) => {
+            const { passwordAgain, ...reqBody } = values;
+            // check if the passwords match
+            if (reqBody.password !== passwordAgain) {
+              setKeyColor('red');
+              return alert('Passwords do not match! Try again.');
+            }
+
+            if (isPasswordNotAcceptable(reqBody.password)) {
+              setKeyColor('red');
+              return alert(
+                'Password have to be at least 8 characters long and contain at least one number, one uppercase letter, one lowercase letter, and one special character.',
+              );
+            }
+
+            createTherapist(reqBody)
+              .then((res) => {
+                // setting the auth cookie
+                /*
+                  For the substring we take res.id.length + 1 (instead of - 1)
+                  because the string we are taking it from (JSON.stringify(...))
+                  has 2 additional chars (quotation marks at the end and beginning)
+                  Also the reason why we are taking the substring to begin with
+                */
+                setCookies(
+                  'therapist',
+                  JSON.stringify(res.id).substring(1, res.id.length + 1),
+                );
+                // succesful registration -> redirect to homepage
+                router.push('/');
+              })
+              .catch((err) => {
+                const status = err.statusCode;
+                if (status === 409) {
+                  alert('This email already exists!');
+                  setAtColor('red');
+                }
+              });
+          })}
+        >
           <Card
             style={{ margin: '10px', borderRadius: '30px' }}
             shadow='lg'
@@ -36,7 +106,7 @@ export default () => {
                 required
                 autoComplete='off'
                 icon={<Id />}
-                //   {...form.getInputProps('name')}
+                {...form.getInputProps('name')}
               />
               <TextInput
                 placeholder='Your email'
@@ -44,9 +114,9 @@ export default () => {
                 type='email'
                 radius='md'
                 autoComplete='off'
-                icon={<At /*color={atColor}*/ />}
+                icon={<At color={atColor} />}
                 required
-                //   {...form.getInputProps('email')}
+                {...form.getInputProps('email')}
               />
               <PasswordInput
                 placeholder='Password'
@@ -54,8 +124,8 @@ export default () => {
                 radius='md'
                 autoComplete='off'
                 required
-                icon={<Key /*color={keyColor}*/ />}
-                // {...form.getInputProps('password')}
+                icon={<Key color={keyColor} />}
+                {...form.getInputProps('password')}
               />
               <PasswordInput
                 placeholder='Password Again'
@@ -63,8 +133,8 @@ export default () => {
                 radius='md'
                 autoComplete='off'
                 required
-                icon={<Key /*color={keyColor}*/ />}
-                // {...form.getInputProps('passwordAgain')}
+                icon={<Key color={keyColor} />}
+                {...form.getInputProps('passwordAgain')}
               />
               <TextInput
                 placeholder='Phone Number'
@@ -73,7 +143,7 @@ export default () => {
                 radius='md'
                 required
                 icon={<Phone />}
-                //   {...form.getInputProps('phone')}
+                {...form.getInputProps('phone')}
               />
               <Textarea
                 placeholder='Your biography or description of your service'
@@ -81,16 +151,23 @@ export default () => {
                 radius='md'
                 required
                 //   icon={<Phone />}
-                // {...form.getInputProps('bio')}
+                {...form.getInputProps('bio')}
               />
-              {/* TODO: Adress */}
               <TextInput
                 placeholder='Institution Name'
                 label='Institution Name'
                 description='This is optional. Only enter a name if you are affiliated with an institution like a hospital etc.'
                 radius='md'
                 // icon={<Phone />}
-                //   {...form.getInputProps('institutionName')}
+                {...form.getInputProps('institutionName')}
+              />
+              <TextInput
+                placeholder='Example Street 42, 42069 Example City'
+                label='Adress'
+                description='Please write your full adress'
+                radius='md'
+                required
+                {...form.getInputProps('adress')}
               />
               <TextInput
                 placeholder='Website'
@@ -98,10 +175,16 @@ export default () => {
                 description='This is optional. Only enter a website url if you are the owner.'
                 radius='md'
                 // icon={<Phone />}
-                //   {...form.getInputProps('institutionName')}
+                {...form.getInputProps('website')}
               />
-              <Checkbox label='Are you allowed to write medication? (e.g. antidepressants, benzodiazepine...)' />
-              <Checkbox label='Do you accept patients with private insurance or no insurance (if they pay themselves)?' />
+              <Checkbox
+                label='Are you allowed to write medication? (e.g. antidepressants, benzodiazepine...)'
+                {...form.getInputProps('canWriteMedication')}
+              />
+              <Checkbox
+                label='Do you accept patients with private insurance or no insurance (if they pay themselves)?'
+                {...form.getInputProps('acceptsPrivateInsurance')}
+              />
             </Stack>
           </Card>
         </form>
@@ -112,19 +195,18 @@ export default () => {
 
 /* MODEL FOR THE THERAPIST TABLE
 model Therapist {
-  id                      
-  DONE: name              
-  DONE: email             
-  DONE: password          
-  DONE: phone             
-  DONE: bio               
-TODO: address                 
-  DONE: institutionName         
-TODO: languages               
-TODO: specialties             
-  DONE: canWriteMedication      
-  DONE: website                 
-TODO: location                
-  DONE: acceptsPrivateInsurance 
+  id
+  DONE: name
+  DONE: email
+  DONE: password 
+  DONE: phone
+  DONE: bio
+  DONE: address
+  DONE: institutionName
+TODO: languages
+TODO: specialties  
+  DONE: canWriteMedication
+  DONE: website
+  DONE: acceptsPrivateInsurance
 }
 */

@@ -35,7 +35,7 @@ export interface ITherapistData {
   password: string;
   phone: string;
   bio: string;
-  address: string;
+  adress: string;
   institutionName?: string;
   languages: string[];
   specialties: string[];
@@ -52,7 +52,7 @@ export interface ITherapistCreate {
   password: string;
   phone: string;
   bio: string;
-  address: string;
+  adress: string;
   institutionName?: string;
   languages: string[];
   specialties: string[];
