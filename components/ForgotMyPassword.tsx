@@ -2,10 +2,13 @@ import { Button, Center, PasswordInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
 import { useState } from 'react';
 import { At, Key } from 'tabler-icons-react';
-import { updateForgottenPassword } from '../lib/API';
+import {
+  updateForgottenPassword,
+  updateForgottenPasswordTherapist,
+} from '../lib/API';
 import { checkPasswordValidity } from '../lib/utils';
 
-export default () => {
+export default ({ adminLogin }: { adminLogin: boolean }) => {
   const [keyColor, setKeyColor] = useState('#adb6bd');
 
   const form = useForm({
@@ -19,8 +22,6 @@ export default () => {
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        // TODO: validate something about the patient
-
         const { passwordAgain, ...data } = values;
 
         if (
@@ -30,7 +31,9 @@ export default () => {
           return;
 
         // TODO: Change API call for therapist
-        updateForgottenPassword(data)
+        (adminLogin
+          ? updateForgottenPasswordTherapist
+          : updateForgottenPassword)(data)
           .then(() => alert('Successfully updated your password!'))
           .catch(console.log);
       })}

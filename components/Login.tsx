@@ -19,7 +19,7 @@ import { At, Key } from 'tabler-icons-react';
 import { loginPatient, loginTherapist } from '../lib/API';
 import ForgotMyPassword from './ForgotMyPassword';
 
-export default ({ adminLogin }: { adminLogin?: boolean }) => {
+export default ({ adminLogin = false }: { adminLogin?: boolean }) => {
   // Colors of the icons depending if there is an error
   const [keyColor, setKeyColor] = useState('#adb6bd');
   const [atColor, setAtColor] = useState('#adb6bd');
@@ -46,7 +46,7 @@ export default ({ adminLogin }: { adminLogin?: boolean }) => {
         onClose={() => setOpened(false)}
         title='Forgot My Password'
       >
-        <ForgotMyPassword />
+        <ForgotMyPassword adminLogin={adminLogin} />
       </Modal>
 
       <Center style={{ width: '100%', marginTop: '5vh' }}>
