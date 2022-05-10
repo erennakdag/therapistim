@@ -37,7 +37,7 @@ export default ({ adminLogin = false }: { adminLogin?: boolean }) => {
   return (
     <>
       <Head>
-        <title>Therapistim | Login{adminLogin && ' as a Therapist'}</title>
+        <title>Therapistim | Login{adminLogin ?? ' as a Therapist'}</title>
       </Head>
 
       <Modal
@@ -78,7 +78,7 @@ export default ({ adminLogin = false }: { adminLogin?: boolean }) => {
                     : {},
                 );
                 // redirect to homepage
-                return router.push('/');
+                return router.push(adminLogin ? '/admin/dashboard' : '/');
               })
               .catch((err) => {
                 const statusCode = err.statusCode;
