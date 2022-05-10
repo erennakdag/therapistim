@@ -97,3 +97,9 @@ export async function createTherapist(
 export async function loginTherapist(body: ILogin): Promise<ITherapistData> {
   return await _fetch('therapist/validate', METHODS.PUT, body);
 }
+
+export async function updateForgottenPasswordTherapist(
+  body: ILogin,
+): Promise<ITherapistData> {
+  return await _fetch('therapist', METHODS.PATCH, body);
+}
