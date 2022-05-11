@@ -88,6 +88,14 @@ export async function deletePatientById(id: string): Promise<IPatientData> {
 
 // THERAPIST ENDPOINTS
 
+export async function getAllTherapists(): Promise<ITherapistData[]> {
+  return await _fetch('therapist', METHODS.GET);
+}
+
+export async function getTherapistById(id: string): Promise<ITherapistData> {
+  return await _fetch('therapist/' + id, METHODS.GET);
+}
+
 export async function createTherapist(
   body: ITherapistCreate,
 ): Promise<ITherapistData> {
