@@ -6,9 +6,10 @@ import {
   ITherapistCreate,
   ITherapistData,
 } from './types';
+import axios from 'axios';
 
 // Should probs be a .env variable
-const API_URL = 'https://therapist-finding-app.herokuapp.com/api/';
+const API_URL = 'http://localhost:8080/api/';
 
 const enum METHODS {
   GET = 'GET',
@@ -110,4 +111,11 @@ export async function updateForgottenPasswordTherapist(
   body: ILogin,
 ): Promise<ITherapistData> {
   return await _fetch('therapist', METHODS.PATCH, body);
+}
+
+export async function searchTherapist(query: any): Promise<ITherapistData[]> {
+  const resp = await axios.get(API_URL + 'therapists', {
+    params: new URLSearchParams(query),
+  });
+  return resp.data;
 }
