@@ -120,7 +120,7 @@ const Home: NextPage = () => {
           {therapistList.map((therapist: any, index: number) => {
             return (
               <div key={index}>
-                <a href={`http://localhost:3000/therapist/${therapist.id}`}>
+                <a href={`http://localhost:3000/therapists/${therapist.id}`}>
                   {therapist.name}
                 </a>
               </div>

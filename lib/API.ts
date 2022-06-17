@@ -90,27 +90,27 @@ export async function deletePatientById(id: string): Promise<IPatientData> {
 // THERAPIST ENDPOINTS
 
 export async function getAllTherapists(): Promise<ITherapistData[]> {
-  return await _fetch('therapist', METHODS.GET);
+  return await _fetch('therapists', METHODS.GET);
 }
 
 export async function getTherapistById(id: string): Promise<ITherapistData> {
-  return await _fetch('therapist/' + id, METHODS.GET);
+  return await _fetch('therapists/' + id, METHODS.GET);
 }
 
 export async function createTherapist(
   body: ITherapistCreate,
 ): Promise<ITherapistData> {
-  return await _fetch('therapist/', METHODS.POST, body);
+  return await _fetch('therapists/', METHODS.POST, body);
 }
 
 export async function loginTherapist(body: ILogin): Promise<ITherapistData> {
-  return await _fetch('therapist/validate', METHODS.PUT, body);
+  return await _fetch('therapists/validate', METHODS.PUT, body);
 }
 
 export async function updateForgottenPasswordTherapist(
   body: ILogin,
 ): Promise<ITherapistData> {
-  return await _fetch('therapist', METHODS.PATCH, body);
+  return await _fetch('therapists', METHODS.PATCH, body);
 }
 
 export async function searchTherapist(query: any): Promise<ITherapistData[]> {
